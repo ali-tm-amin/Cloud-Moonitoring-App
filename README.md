@@ -173,7 +173,7 @@ deployment = client.V1Deployment(
                 containers=[
                     client.V1Container(
                         name="my-flask-container",
-                        image="568373317874.dkr.ecr.us-east-1.amazonaws.com/my-cloud-native-repo:latest",
+                        image="705791504920.dkr.ecr.eu-west-2.amazonaws.com/my_monitoring_app_image:latest",
                         ports=[client.V1ContainerPort(container_port=5000)]
                     )
                 ]
@@ -222,3 +222,22 @@ Once your pod is up and running, run the port-forward to expose the service
 ```bash
 kubectl port-forward service/<service_name> 5000:5000
 ```
+
+### There will be charges if you don't destroy after completion of the exerciese
+## Create a cluster with eksctl
+eksctl create cluster --name mycloud --region eu-west-2 --version 1.27 --vpc-private-subnets subnet-006d8359509c3eb40,subnet-08be3c74b194f1bba --without-nodegroup
+
+
+## create a node group with ekscli
+eksctl create nodegroup \
+  --cluster cloud_native \
+  --region eu-west-2 \
+  --name mynode \
+  --node-ami-family AmazonLinux2 \
+  --node-type t2.micro \
+  --nodes 2 \
+  --nodes-min 2 \
+  --nodes-max 2 \
+  --ssh-access \
+  --ssh-public-key AliDemo \
+  --subnet-ids subnet-006d8359509c3eb40,subnet-08be3c74b194f1bba
